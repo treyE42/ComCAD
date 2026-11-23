@@ -525,7 +525,7 @@
       aria-expanded="false"
       aria-controls="selectionDropdownOptions"
     >
-      <span class="selection-dropdown-label" id="selectionDropdownLabel">Sketch</span>
+      <span class="selection-dropdown-label" id="selectionDropdownLabel">Part Studio</span>
       <span class="selection-dropdown-icon" aria-hidden="true">
         <svg viewBox="0 0 24 24" focusable="false">
           <!-- Equilateral triangle centered in the 24x24 rotation box. -->
@@ -559,9 +559,9 @@
 
   <!-- Original select retained for extension compatibility. -->
   <select name="Selection" id="Selection" class="visually-hidden-select" aria-hidden="true" tabindex="-1">
-    <option value="drawing" selected>Drawing</option>
-    <option value="part">Part Studio</option>
+    <option value="part" selected>Part Studio</option>
     <option value="assembly">Assembly</option>
+    <option value="drawing">Drawing</option>
   </select>
 </div>
 
@@ -608,6 +608,11 @@
   <label class="option-row">
     <input type="checkbox" id="version" name="versionSet" value="createVersion">
     Create new version on generation
+  </label>
+
+  <label class="option-row">
+    <input type="checkbox" id="version" name="tolerance" value="noTolerance">
+    Adjust for print tolerance
   </label>
 
   <!-- Part Libraries uses the same animated dropdown visuals as Generation Type. -->
