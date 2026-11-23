@@ -52,11 +52,30 @@
     margin-bottom: 24px;
   }
 
+  .header-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+  }
+
+  .header-copy {
+    min-width: 0;
+  }
+
   .header-row {
     display: flex;
     align-items: baseline;
     gap: 12px;
     flex-wrap: wrap;
+  }
+
+  .header-logo {
+    display: block;
+    flex: 0 0 auto;
+    width: 48px;
+    height: 48px;
+    object-fit: contain;
   }
 
   .header-row h1 {
@@ -135,8 +154,166 @@
 
   select {
     width: 100%;
+    height: 36px;
     margin-top: 6px;
     cursor: pointer;
+  }
+
+  /* Generation Type dropdown: animated slide-down menu */
+  .selection-dropdown {
+    position: relative;
+    width: 100%;
+    margin-top: 6px;
+  }
+
+  .selection-dropdown-btn {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    width: 100%;
+    height: 36px;
+    padding: 8px 12px;
+    background: var(--bg);
+    color: var(--text);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: normal;
+    text-align: left;
+    cursor: pointer;
+    outline: none;
+    transition: border-color 0.15s, background-color 0.2s, color 0.2s;
+  }
+
+  .selection-dropdown-btn:hover,
+  .selection-dropdown-btn:focus-visible {
+    border-color: var(--accent);
+  }
+
+  .selection-dropdown-label {
+    min-width: 0;
+    overflow-wrap: anywhere;
+  }
+
+  /*
+    Rotate a fixed 24x24 icon box, not the path itself.
+    The equilateral triangle's centroid is at (12, 12), exactly
+    matching the icon box center and the rotation origin.
+  */
+  .selection-dropdown-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex: 0 0 24px;
+    width: 24px;
+    height: 24px;
+    transform: rotate(0deg);
+    transform-origin: 50% 50%;
+    transition: transform 0.28s ease;
+    pointer-events: none;
+  }
+
+  .selection-dropdown-icon svg {
+    display: block;
+    width: 24px;
+    height: 24px;
+    overflow: visible;
+  }
+
+  .selection-dropdown.is-open .selection-dropdown-icon {
+    transform: rotate(180deg);
+  }
+
+  /* Prevent the I-beam text cursor and accidental text highlighting
+     when the dropdown button or one of its options is clicked. */
+  .selection-dropdown,
+  .selection-dropdown button,
+  .selection-dropdown-content,
+  .selection-dropdown-content label,
+  .selection-dropdown-content label span {
+    -webkit-user-select: none;
+    user-select: none;
+    cursor: pointer;
+  }
+
+  .selection-dropdown-label {
+    pointer-events: none;
+  }
+
+  /* The options expand and slide downward below the button. */
+  .selection-dropdown-content {
+    display: block;
+    max-height: 0;
+    opacity: 0;
+    visibility: hidden;
+    overflow: hidden;
+    margin-top: 0;
+    padding: 0 8px;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    background: var(--surface);
+    color: var(--text);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+    transform: translateY(-6px);
+    transform-origin: top;
+
+    transition:
+      max-height 0.28s ease,
+      opacity 0.2s ease,
+      transform 0.28s ease,
+      margin-top 0.28s ease,
+      padding 0.28s ease,
+      visibility 0s linear 0.28s;
+  }
+
+  [data-theme="dark"] .selection-dropdown-content {
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
+  }
+
+  .selection-dropdown.is-open .selection-dropdown-content {
+    max-height: 180px;
+    opacity: 1;
+    visibility: visible;
+    margin-top: 4px;
+    padding: 8px;
+    transform: translateY(0);
+    transition:
+      max-height 0.28s ease,
+      opacity 0.2s ease,
+      transform 0.28s ease,
+      margin-top 0.28s ease,
+      padding 0.28s ease,
+      visibility 0s;
+  }
+
+  .selection-dropdown-content label {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    min-height: 30px;
+    padding: 6px 8px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+  }
+
+  .selection-dropdown-content label:hover {
+    background: var(--bg);
+  }
+
+  /* Keep the original select in the DOM for existing extension integrations. */
+  .visually-hidden-select {
+    position: absolute !important;
+    width: 1px !important;
+    height: 1px !important;
+    padding: 0 !important;
+    margin: -1px !important;
+    overflow: hidden !important;
+    clip: rect(0, 0, 0, 0) !important;
+    white-space: nowrap !important;
+    border: 0 !important;
   }
 
   /* Developer-editable Context Description */
@@ -242,67 +419,11 @@
     background: var(--accent-hover);
   }
 
-  /* Custom Dropdown */
-  .dropdown {
-    position: relative;
-    width: 100%;
-  }
-
-  .dropdown-btn {
-    width: 100%;
-    text-align: left;
-    background: var(--bg);
-    color: var(--text);
-    border: 1px solid var(--border);
-    border-radius: 6px;
-    padding: 9px 12px;
-    font-size: 14px;
-    cursor: pointer;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    gap: 12px;
-  }
-
+  /* Part Libraries reuses the exact Generation Type dropdown styling. */
   #dropdownLabel {
+    min-width: 0;
     overflow-wrap: anywhere;
-  }
-
-  .dropdown-content {
-    display: none;
-    position: absolute;
-    bottom: 100%;
-    left: 0;
-    width: 100%;
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: 6px;
-    padding: 8px;
-    margin-bottom: 4px;
-    z-index: 10;
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
-  }
-
-  [data-theme="dark"] .dropdown-content {
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
-  }
-
-  .dropdown-content label {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    padding: 6px 8px;
-    border-radius: 4px;
-    cursor: pointer;
-    font-size: 14px;
-  }
-
-  .dropdown-content label:hover {
-    background: var(--bg);
-  }
-
-  .show {
-    display: block;
+    pointer-events: none;
   }
 
   /* Theme Switch */
@@ -347,6 +468,15 @@
       padding: 16px;
     }
 
+    .header-top {
+      align-items: flex-start;
+    }
+
+    .header-logo {
+      width: 40px;
+      height: 40px;
+    }
+
     .theme-row {
       align-items: flex-start;
       flex-direction: column;
@@ -358,11 +488,18 @@
 <body>
 
 <header>
-  <div class="header-row">
-    <h1>ComCAD</h1>
-    <span>Your loyal AI comrade for CADing</span>
+  <div class="header-top">
+    <div class="header-copy">
+      <div class="header-row">
+        <h1>ComCAD</h1>
+        <span>Your loyal AI comrade for CADing</span>
+      </div>
+      <p class="production-tag">TTM Co. Production</p>
+    </div>
+
+    <!-- Place logo.svg in the same GitHub folder as this HTML file. -->
+    <img class="header-logo" src="./logo.svg" alt="ComCAD logo">
   </div>
-  <p class="production-tag">TTM Co. Production</p>
 </header>
 
 <div class="card">
@@ -378,8 +515,51 @@
     Create new files
   </label>
 
-  <select name="Selection" id="Selection">
-    <option value="sketch">Sketch</option>
+  <!-- Animated Generation Type dropdown -->
+  <div class="selection-dropdown" id="selectionDropdown">
+    <button
+      type="button"
+      class="selection-dropdown-btn"
+      id="selectionDropdownButton"
+      onclick="toggleSelectionDropdown()"
+      aria-expanded="false"
+      aria-controls="selectionDropdownOptions"
+    >
+      <span class="selection-dropdown-label" id="selectionDropdownLabel">Sketch</span>
+      <span class="selection-dropdown-icon" aria-hidden="true">
+        <svg viewBox="0 0 24 24" focusable="false">
+          <!-- Equilateral triangle centered in the 24x24 rotation box. -->
+          <path d="M12 3 L19.794 16.5 L4.206 16.5 Z" fill="currentColor" />
+        </svg>
+      </span>
+    </button>
+
+    <div
+      class="selection-dropdown-content"
+      id="selectionDropdownOptions"
+      role="radiogroup"
+      aria-label="Generation target"
+    >
+      <label>
+        <input type="radio" name="selectionChoice" value="sketch" checked onchange="selectGenerationType(this)">
+        Sketch
+      </label>
+
+      <label>
+        <input type="radio" name="selectionChoice" value="studio" onchange="selectGenerationType(this)">
+        Part Studio
+      </label>
+
+      <label>
+        <input type="radio" name="selectionChoice" value="assembly" onchange="selectGenerationType(this)">
+        Assembly
+      </label>
+    </div>
+  </div>
+
+  <!-- Original select retained for extension compatibility. -->
+  <select name="Selection" id="Selection" class="visually-hidden-select" aria-hidden="true" tabindex="-1">
+    <option value="sketch" selected>Sketch</option>
     <option value="studio">Part Studio</option>
     <option value="assembly">Assembly</option>
   </select>
@@ -430,19 +610,30 @@
     Create new version on generation
   </label>
 
-  <div class="dropdown">
+  <!-- Part Libraries uses the same animated dropdown visuals as Generation Type. -->
+  <div class="selection-dropdown" id="libraryDropdownContainer">
     <button
       type="button"
-      class="dropdown-btn"
+      class="selection-dropdown-btn"
+      id="libraryDropdownButton"
       onclick="toggleLibraryDropdown()"
       aria-expanded="false"
       aria-controls="libraryDropdown"
     >
-      <span id="dropdownLabel">Part Libraries: None</span>
-      <span aria-hidden="true">▲</span>
+      <span class="selection-dropdown-label" id="dropdownLabel">Part Libraries: None</span>
+      <span class="selection-dropdown-icon" aria-hidden="true">
+        <svg viewBox="0 0 24 24" focusable="false">
+          <path d="M12 3 L19.794 16.5 L4.206 16.5 Z" fill="currentColor" />
+        </svg>
+      </span>
     </button>
 
-    <div id="libraryDropdown" class="dropdown-content">
+    <div
+      id="libraryDropdown"
+      class="selection-dropdown-content"
+      role="group"
+      aria-label="Part libraries"
+    >
       <label>
         <input
           type="checkbox"
@@ -538,11 +729,75 @@
     }
   }
 
-  /* Part Libraries dropdown */
+  /* Animated Generation Type dropdown */
+  function toggleSelectionDropdown() {
+    const dropdown = document.getElementById("selectionDropdown");
+    const button = document.getElementById("selectionDropdownButton");
+    const isOpen = dropdown.classList.toggle("is-open");
+    button.setAttribute("aria-expanded", String(isOpen));
+  }
+
+  function selectGenerationType(radio) {
+    const selection = document.getElementById("Selection");
+    const dropdown = document.getElementById("selectionDropdown");
+    const button = document.getElementById("selectionDropdownButton");
+    const label = document.getElementById("selectionDropdownLabel");
+
+    selection.value = radio.value;
+    label.textContent = radio.parentElement.textContent.trim();
+
+    // Notify existing extension code listening to the original select.
+    selection.dispatchEvent(new Event("change", { bubbles: true }));
+
+    dropdown.classList.remove("is-open");
+    button.setAttribute("aria-expanded", "false");
+  }
+
+  // Close either dropdown when clicking outside it.
+  document.addEventListener("click", function(event) {
+    const selectionDropdown = document.getElementById("selectionDropdown");
+    const libraryDropdown = document.getElementById("libraryDropdownContainer");
+
+    if (selectionDropdown && !selectionDropdown.contains(event.target)) {
+      selectionDropdown.classList.remove("is-open");
+      document.getElementById("selectionDropdownButton")
+        .setAttribute("aria-expanded", "false");
+    }
+
+    if (libraryDropdown && !libraryDropdown.contains(event.target)) {
+      libraryDropdown.classList.remove("is-open");
+      document.getElementById("libraryDropdownButton")
+        .setAttribute("aria-expanded", "false");
+    }
+  });
+
+  // Escape closes both dropdowns and returns focus to the open control.
+  document.addEventListener("keydown", function(event) {
+    if (event.key !== "Escape") return;
+
+    const selectionDropdown = document.getElementById("selectionDropdown");
+    const libraryDropdown = document.getElementById("libraryDropdownContainer");
+
+    if (libraryDropdown && libraryDropdown.classList.contains("is-open")) {
+      libraryDropdown.classList.remove("is-open");
+      const button = document.getElementById("libraryDropdownButton");
+      button.setAttribute("aria-expanded", "false");
+      button.focus();
+    }
+
+    if (selectionDropdown && selectionDropdown.classList.contains("is-open")) {
+      selectionDropdown.classList.remove("is-open");
+      const button = document.getElementById("selectionDropdownButton");
+      button.setAttribute("aria-expanded", "false");
+      button.focus();
+    }
+  });
+
+  /* Part Libraries dropdown: same animation as Generation Type. */
   function toggleLibraryDropdown() {
-    const dropdown = document.getElementById("libraryDropdown");
-    const button = document.querySelector(".dropdown-btn");
-    const isOpen = dropdown.classList.toggle("show");
+    const container = document.getElementById("libraryDropdownContainer");
+    const button = document.getElementById("libraryDropdownButton");
+    const isOpen = container.classList.toggle("is-open");
     button.setAttribute("aria-expanded", String(isOpen));
   }
 
@@ -562,7 +817,7 @@
     // All is checked only when every individual library is checked.
     allBox.checked = options.length > 0 && checked.length === options.length;
 
-    // Do not show the indeterminate horizontal-line state.
+    // Never show the indeterminate horizontal-line state.
     allBox.indeterminate = false;
 
     const label = document.getElementById("dropdownLabel");
@@ -570,7 +825,8 @@
     if (checked.length === 0) {
       label.textContent = "Part Libraries: None";
     } else {
-      label.textContent = "Part Libraries: " + checked.map(checkbox => checkbox.value).join(", ");
+      label.textContent = "Part Libraries: " +
+        checked.map(checkbox => checkbox.value).join(", ");
     }
   }
 
@@ -623,6 +879,19 @@
   }
 
   /* Initialize controls */
+  const initialSelection = document.getElementById("Selection");
+
+  const initialSelectionRadio = document.querySelector(
+    'input[name="selectionChoice"][value="' + initialSelection.value + '"]'
+  );
+
+  if (initialSelectionRadio) {
+    initialSelectionRadio.checked = true;
+
+    document.getElementById("selectionDropdownLabel").textContent =
+      initialSelectionRadio.parentElement.textContent.trim();
+  }
+
   updateDropdownLabel();
   initializeTheme();
 </script>
