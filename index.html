@@ -507,12 +507,12 @@
 
   <label class="option-row">
     <input type="radio" id="modifyFile" name="generationMode" value="modify" checked>
-    Modify existing files
+    Modify existing element
   </label>
 
   <label class="option-row">
     <input type="radio" id="createFile" name="generationMode" value="create">
-    Create new files
+    Create new element
   </label>
 
   <!-- Animated Generation Type dropdown -->
@@ -541,18 +541,18 @@
       aria-label="Generation target"
     >
       <label>
-        <input type="radio" name="selectionChoice" value="sketch" checked onchange="selectGenerationType(this)">
-        Sketch
-      </label>
-
-      <label>
-        <input type="radio" name="selectionChoice" value="studio" onchange="selectGenerationType(this)">
+        <input type="radio" name="selectionChoice" value="part" checked onchange="selectGenerationType(this)">
         Part Studio
       </label>
 
       <label>
         <input type="radio" name="selectionChoice" value="assembly" onchange="selectGenerationType(this)">
         Assembly
+      </label>
+
+      <label>
+        <input type="radio" name="selectionChoice" value="drawing" onchange="selectGenerationType(this)">
+        Drawing
       </label>
     </div>
   </div>
